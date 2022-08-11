@@ -4,6 +4,7 @@ RUN apt-get update
 RUN apt-get upgrade -y
 RUN apt-get install -y openjdk-11-jre-headless
 RUN apt-get install -y openssh-server
+RUN apt-get install -y git
 
 RUN useradd --home /home/jenkins --create-home --password jenkins --shell /bin/bash jenkins
 
