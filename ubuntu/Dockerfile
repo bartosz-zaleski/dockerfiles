@@ -1,19 +1,26 @@
 FROM ubuntu:base
 
-ARG ssh_pub_key
-
 RUN apt-get update
-RUN apt-get upgrade
+RUN apt-get upgrade -y
 RUN apt-get install -y openjdk-11-jre-headless
 RUN apt-get install -y openssh-server
 
-#TODO use --skel --create-home 
+RUN useradd --home /home/jenkins --create-home --password jenkins --shell /bin/bash jenkins
 
-RUN useradd --home /home/jenkins  jenkins
+RUN \
+    mkdir -p /home/jenkins/.ssh \
+    chmod 700 /home/jenkins/.ssh
 
-RUN mkdir -p /root/.ssh
-RUN touch /root/.ssh/authorized_keys \
-    chmod 600 /root/.ssh/authorized_keys \
-    echo "${ssh_pub_key}" >> /root/.ssh/authorized_keys
+ADD id_rsa /home/jenkins/.ssh/
+ADD id_rsa.pub /home/jenkins/.ssh/
+ADD authorized_keys /home/jenkins/.ssh/
+ADD ssh_config /etc/ssh/
 
-CMD /bin/bash
+RUN chmod 644 /etc/ssh/ssh_config
+RUN chown -R jenkins:jenkins /home/jenkins/.ssh
+
+RUN mkdir /var/run/sshd
+
+EXPOSE 22
+
+CMD ["/usr/sbin/sshd", "-D"]
