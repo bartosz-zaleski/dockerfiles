@@ -6,9 +6,9 @@ ADD rustup.sh /home/jenkins
 
 RUN /home/jenkins/rustup.sh -y
 RUN rm -f /home/jenkins/rustup.sh
-ENV PATH="/home/jenkins/.cargo/bin:${PATH}"
 
 USER root
+RUN echo "export PATH=/home/jenkins/.cargo/bin:${PATH}" >> /etc/environment
 
 EXPOSE 22
 
