@@ -1,26 +1,15 @@
-FROM docker:latest
+FROM jenkins/ubuntu:latest
 
-RUN apk update
-RUN apk add openjdk17-jre-headless
-RUN apk add openssh-server
-RUN apk add git
+RUN apt-get update
+RUN apt-get install -y ca-certificates curl gnupg lsb-release
+	
+RUN mkdir -p /etc/apt/keyrings
+RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 
-RUN adduser --gecos "" --disabled-password --home /home/jenkins --shell /bin/sh jenkins
-RUN chpasswd jenkins:jenkins
+RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
 
-RUN \
-    mkdir -p /home/jenkins/.ssh \
-    chmod 700 /home/jenkins/.ssh
-
-ADD authorized_keys /home/jenkins/.ssh/
-ADD ssh_config /etc/ssh/
-ADD sshd_config /etc/ssh/
-
-RUN chmod 644 /etc/ssh/ssh_config
-RUN chown -R jenkins:jenkins /home/jenkins/.ssh
-
-RUN mkdir /var/run/sshd
-RUN cd /etc/ssh ; ssh-keygen -A
+RUN apt-get update
+RUN apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
 
 EXPOSE 22
 
