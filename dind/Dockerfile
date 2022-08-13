@@ -5,17 +5,16 @@ RUN apk add openjdk17-jre-headless
 RUN apk add openssh-server
 RUN apk add git
 
-RUN adduser --gecos "" --disabled-password --home /home/jenkins --shell /bin/bash jenkins
+RUN adduser --gecos "" --disabled-password --home /home/jenkins --shell /bin/sh jenkins
 RUN chpasswd jenkins:jenkins
 
 RUN \
     mkdir -p /home/jenkins/.ssh \
     chmod 700 /home/jenkins/.ssh
 
-ADD id_rsa /home/jenkins/.ssh/
-ADD id_rsa.pub /home/jenkins/.ssh/
 ADD authorized_keys /home/jenkins/.ssh/
 ADD ssh_config /etc/ssh/
+ADD sshd_config /etc/ssh/
 
 RUN chmod 644 /etc/ssh/ssh_config
 RUN chown -R jenkins:jenkins /home/jenkins/.ssh

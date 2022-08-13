@@ -12,8 +12,6 @@ RUN \
     mkdir -p /home/jenkins/.ssh \
     chmod 700 /home/jenkins/.ssh
 
-ADD id_rsa /home/jenkins/.ssh/
-ADD id_rsa.pub /home/jenkins/.ssh/
 ADD authorized_keys /home/jenkins/.ssh/
 ADD ssh_config /etc/ssh/
 
