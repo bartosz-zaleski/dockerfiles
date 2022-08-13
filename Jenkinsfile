@@ -1,5 +1,9 @@
 pipeline {
-  agent "jenkins-dind"
+  agent {
+    docker {
+      label 'jenkins-dind'
+    }
+  }
   stages {
     stage('ubuntu') {
       steps {
