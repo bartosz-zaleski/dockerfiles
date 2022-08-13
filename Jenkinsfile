@@ -1,5 +1,5 @@
 pipeline {
-  agent "docker"
+  agent "jenkins-dind"
   stages {
     stage('ubuntu') {
       steps {
