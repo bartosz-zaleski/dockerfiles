@@ -1,7 +1,0 @@
-Host *
-   PasswordAuthentication yes
-   IdentityFile /home/jenkins/.ssh/id_rsa
-   Port 22
-   SendEnv LANG LC_*
-   HashKnownHosts yes
-   GSSAPIAuthentication yes
