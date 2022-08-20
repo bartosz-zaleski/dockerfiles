@@ -21,6 +21,7 @@ RUN \
 
 ADD authorized_keys /home/jenkins/.ssh/
 ADD ssh_config /etc/ssh/
+
 RUN echo "PubkeyAuthentication yes" >> /etc/ssh/sshd_config
 RUN echo "AuthorizedKeysFile .ssh/authorized_keys" >> /etc/ssh/sshd_config
 RUN echo "PermitRootLogin no" >> /etc/ssh/sshd_config
