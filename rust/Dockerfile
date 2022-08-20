@@ -10,6 +10,4 @@ RUN rm -f /home/jenkins/rustup.sh
 USER root
 RUN echo "export PATH=/home/jenkins/.cargo/bin:${PATH}" >> /etc/environment
 
-EXPOSE 22
-
 CMD ["/usr/sbin/sshd", "-D"]
